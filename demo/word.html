@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <!-- 引入excel第三方 -->
+    <script src="../js/xlsx.core.min.js"></script>
+</head>
+<body>
+    <div id="app" style="padding: 30px;">
+        <ul style="list-style: none;">
+            <li v-for="(item,index) of myObj.ws">
+                <div>{ </div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;"w": "{{item.w}}",</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;"o":</span>{{item.o}},</div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;"d":</span>{{item.d}}</div>
+                <div>}
+                    <span v-show="index!=myObj.ws.length-1">,</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                myObj:{
+                    "ws": [ ],
+                    "o": 0,
+                    "d": 1700,
+                    "audioSrc": "./static/content/songs/media5.mp3"
+                }
+            }
+        },
+        methods:{
+            jisuan(){
+                let str=" Anyone that does not believe this should look again at the time it takes our fastest rockets to reach another planet within our solar system, see our solar system against the background of our galaxy, the Milky Way, then look beyond that and beyond that and beyond that. "
+                let arr = str.split(" ")
+                arr = arr.filter(item=>{
+                    return item != ''
+                })
+                arr.forEach(item=>{
+                    this.myObj.ws.push(
+                        {
+                            "w": item,
+                            "o": 300,
+                            "d": 200 
+                        }
+                    )
+                })
+            }
+        },
+        mounted(){
+            this.jisuan()
+        }
+    })
+</script>
+</html>

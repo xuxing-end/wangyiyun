@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <!-- 引入excel第三方 -->
+    <script src="../js/xlsx.core.min.js"></script>
+</head>
+<body>
+    <div id="app" style="padding: 30px;">
+        <el-button type="primary" @click="daochu">导出</el-button>
+        <el-table :data="tableData" border style="width: 100%;margin-top: 15px;">
+            <el-table-column prop="date" label="日期" width="180"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="address" label="地址"></el-table-column>
+        </el-table>
+    </div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王中虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王大虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王狂虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }]
+            }
+        },
+        methods:{
+            daochu(){
+                // 表头
+                var aoa = [
+                    ['日期', '姓名', '家庭地址'],
+                ];
+                // 数据处理
+                this.tableData.forEach(item=>{
+                    aoa.push(
+                        [item.date, item.name, item.address]
+                    )
+                })
+                var sheet = XLSX.utils.aoa_to_sheet(aoa);
+                //                                                excel文件名
+                this.openDownloadDialog(this.sheet2blob(sheet), '学生信息.xlsx');
+            },
+            //此方法官方的不用改
+            openDownloadDialog(url, saveName){
+                if(typeof url == 'object' && url instanceof Blob)
+                {
+                    url = URL.createObjectURL(url); // 创建blob地址
+                }
+                var aLink = document.createElement('a');
+                aLink.href = url;
+                aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
+                var event;
+                if(window.MouseEvent) event = new MouseEvent('click');
+                else
+                {
+                    event = document.createEvent('MouseEvents');
+                    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                }
+                aLink.dispatchEvent(event);
+            },
+            //此方法官方的不用改
+            sheet2blob(sheet, sheetName) {
+                sheetName = sheetName || 'sheet1';
+                var workbook = {
+                    SheetNames: [sheetName],
+                    Sheets: {}
+                };
+                workbook.Sheets[sheetName] = sheet;
+                // 生成excel的配置项
+                var wopts = {
+                    bookType: 'xlsx', // 要生成的文件类型
+                    bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+                    type: 'binary'
+                };
+                var wbout = XLSX.write(workbook, wopts);
+                var blob = new Blob([s2ab(wbout)], {type:"application/octet-stream"});
+                // 字符串转ArrayBuffer
+                function s2ab(s) {
+                    var buf = new ArrayBuffer(s.length);
+                    var view = new Uint8Array(buf);
+                    for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+                    return buf;
+                }
+                return blob;
+            }
+        }
+    })
+</script>
+</html>

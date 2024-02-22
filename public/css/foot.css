@@ -1,0 +1,6 @@
+body{background-color: #e8e8e8;padding-left: 10rem;padding-top: 1rem;color: #666;}
+#a1{list-style: none;color:#999;display: flex !important;padding: 0;margin-bottom:5px ;}
+#a1 a{color:#999;text-decoration: none}
+#a1 li+li::before{content: "|";margin:10px ;}
+body a{color: #666;text-decoration: none;}
+body p{display: inline-block;margin-top: 5px;margin-bottom: 5px;}

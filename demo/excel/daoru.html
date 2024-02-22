@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <!-- 引入excel第三方 -->
+    <script src="../js/xlsx.core.min.js"></script>
+</head>
+<body>
+    <div id="app" style="padding: 30px;">
+        <input type="file" id="file" @change="daoru" style="display:none;"/>
+        <el-button type="primary" @click="selectFile">导入</el-button>
+        <div>{{xlsxArr}}</div>
+    </div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                xlsxArr:[]
+            }
+        },
+        methods:{
+            // 自己写的，激活file文件单击事件
+            selectFile() {
+                document.getElementById('file').click();
+            },
+            // 官方写的，无需更改。获取文件后的事件
+            daoru(e){
+                let files = e.target.files;
+                if(files.length == 0) return;
+                let f = files[0];
+                if(!/\.xlsx$/g.test(f.name)) {
+                    this.$message.error('仅支持读取xlsx格式！');
+                    return;
+                }
+                this.readWorkbookFromLocalFile(f, (workbook)=>{
+                    this.readWorkbook(workbook);
+                });
+            },
+            //此方法官方的不用改
+            readWorkbookFromLocalFile(file, callback) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let data = e.target.result;
+                    let workbook = XLSX.read(data, {type: 'binary'});
+                    if(callback) callback(workbook);
+                };
+                reader.readAsBinaryString(file);
+            },
+            //此方法官方的不用改
+            readWorkbook(workbook) {
+                let sheetNames = workbook.SheetNames; // 工作表名称集合
+                let worksheet = workbook.Sheets[sheetNames[0]]; // 这里我们只读取第一张sheet
+                let csv = XLSX.utils.sheet_to_csv(worksheet);
+                // 最后将处理好后的数据塞到变量里面
+                this.xlsxArr = this.dataProcessing(csv);
+            },
+            // 自己写的，进行获取文件后的数据处理
+            dataProcessing(csv){
+                let rows = csv.split('\n');
+                rows.pop(); // 最后一行没用的
+                rows = rows.map(item=>{
+                    return item.split(",")
+                })
+                let arr = []
+                for(let i=0; i<=rows.length-1; i++){
+                    if(i == 0){
+                        continue
+                    }
+                    arr.push(
+                        {
+                            [rows[0][0]]: rows[i][0],
+                            [rows[0][1]]: rows[i][1],
+                            [rows[0][2]]: rows[i][2],
+                        }
+                    )
+                }
+                return arr
+            }
+        }
+    })
+</script>
+</html>

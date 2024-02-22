@@ -1,0 +1,51 @@
+body{
+  max-width:100% ;
+  min-width: 1300px;
+}
+#head{
+  width: 100%;
+}
+body{
+  background-color: #fff !important;
+}
+#a1{list-style: none;display: flex;justify-content: center;border-bottom: 1px solid #ccc;padding: 10px 0;}
+#a1 li{width: 257px;}
+#a1>li+li{border-left: 1px solid #ccc;}
+#b1{width: 1100px;margin: 0 auto;}
+#b2{display: flex;justify-content:space-between;}
+.dafangge{display: flex;justify-content: space-between;flex-wrap: wrap;text}
+.dafangge a{color: #000;}
+.dafangge>div{width: 20%;}
+.dafangge img{background-color: rgb(249,249,249) ;margin-bottom: 5px;width: 100%;}
+#c1{display: flex;justify-content: space-between;background-color:rgb(249,249,249) ;width: 80%;margin: 0 auto;text-decoration: none;color: #000;margin-bottom: 130px !important;margin-top: 100px !important;}
+#c1 span{font-weight: bold;font-size: 2rem;}
+#c1>div:first-child img{width: 9%;margin-bottom: 12px;}
+#c2{display: flex;position: relative;}
+#c2>img{width: 100px;height: 100px;margin-top: 20px;}
+#c2>div{position: absolute;top: 9px;left: 47px;width: 100%;}
+#d1{width: 80%;margin: 0 auto;}
+#f1{list-style: none;border: 1px solid #000;position: fixed;top: 30%;right: 3%;background-color: #fff;width: 80px;padding-left: 0px;}
+#f1 a{color: #000;text-decoration: none;}
+#f1 li{padding:10px ;text-align: center;}
+#f1 li+li{border-top: 1px solid #999;}
+#f1>li:last-child{background-color: #000;padding: 0;color: #fff;font-size: 19px;}
+#f1>li:last-child div{transform: rotate(90deg);font-size: 30px;height: 15px;width: 100%;margin-left: 15px;}
+.xiaokuang{border: 1px solid #f00;color:#f00;font-size: 13px;}
+.yuanjia{width: 70px;height: 70px;background-color: #f00;border-radius: 50%;top: 20px;left: 20px;}
+.w-53{width: 53px;}
+.fangge{
+  position: relative;
+  width: 24% !important;
+}
+.dazhe{
+  top: 10px;
+  position: absolute;
+  width:60px;height:60px;
+  border-radius: 50%;
+  background-color:rgb(211,58,49);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.dazhe>p:first-child{margin-bottom: 0;margin-top: 12px;color: #fff;}
+.dazhe>p:last-child{color: #e8e8e8;text-decoration: line-through;}

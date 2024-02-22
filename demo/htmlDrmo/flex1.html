@@ -1,0 +1,14 @@
+<div >
+    <div id="d1" class="div">我是一个div</div>
+</div>
+<script>
+    window.onload = function(){
+        let label = 'before'
+        console.time(label)
+        let text = "专门前端30年，精通炒米粉，肉拌菜，烤鸡腿"
+        for(let i=0; i<=4000; i++){
+            document.getElementById("d1").innerHTML += text
+        }
+        console.timeEnd(label)
+    }
+</script>
